@@ -1,0 +1,48 @@
+<html>
+  <head>
+		<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+    <script type="text/javascript" src="https://www.google.com/jsapi"></script>
+    <script type="text/javascript">
+      google.load("visualization", "1", {packages:["orgchart"]});
+      google.setOnLoadCallback(drawChart);
+      function drawChart() {
+        var data = new google.visualization.DataTable();
+        data.addColumn('string', 'id');
+        data.addColumn('string', 'name');
+        data.addColumn('string', 'child');
+
+				
+        data.addRows([
+          [{v:'Mike', f:'Mike<div style="color:red; font-style:italic">President</div>'}, '', 'The President'],
+          [{v:'Jim', f:'Jim<div style="color:red; font-style:italic">Vice President</div>'}, 'Mike', 'VP'],
+          ['Alice', 'Mike', ''],
+          ['Bob', 'Jim', 'Bob Sponge'],
+          ['Carol', 'Bob', '']
+        ]);
+				
+				//
+				//data.addRows();
+				
+
+        var chart = new google.visualization.OrgChart(document.getElementById('chart_div'));
+        chart.draw(data, {allowHtml:true});
+      }
+			
+			$(document).ready(function(){
+				$.ajax({
+				  type: "POST",
+				  url: "genTree.py",
+				  data: "",
+					dataType: "text",
+					success: function(response){
+						$("#node_div").text(response);
+					}
+				});
+			});
+   </script>
+    </head>
+  <body>
+    <div id="chart_div"></div>
+		<div id="node_div">aavvvv</div>
+  </body>
+</html>
